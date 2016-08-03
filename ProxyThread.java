@@ -93,8 +93,8 @@ public class ProxyThread extends Thread {
                         Thread.sleep(1);
                         // print out html page
                         String pageStr = new String(by, "UTF-8");
-                        replacedString = new KeywordsFilter().filterKeywords(pageStr);
-                        // replacedString = pageStr.replace("Password", "*****");
+                        // replacedString = new KeywordsFilter().filterKeywords(pageStr);
+                        replacedString = pageStr.replace("Password", "*****");
                         // System.out.println(replacedString);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
