@@ -7,7 +7,6 @@ import java.util.*;
 public class ProxyThread extends Thread {
     private Socket socket = null;
     private static final int BUFFER_SIZE = 32768;
-
     public ProxyThread(Socket socket) {
         super("ProxyThread");
         this.socket = socket;
@@ -20,14 +19,15 @@ public class ProxyThread extends Thread {
         //send response to user
 
         try {
-            DataOutputStream out = 
-            new DataOutputStream(socket.getOutputStream());
+            DataOutputStream out =
+        new DataOutputStream(socket.getOutputStream());
             BufferedReader in = new BufferedReader(
-            new InputStreamReader(socket.getInputStream()));
+        new InputStreamReader(socket.getInputStream()));
 
             String inputLine, outputLine;
             int cnt = 0;
             String urlToCall = "";
+            ///////////////////////////////////
             //begin get request from client
             while ((inputLine = in.readLine()) != null) {
                 try {
@@ -43,14 +43,17 @@ public class ProxyThread extends Thread {
                     //can redirect this to output log
                     System.out.println("Request for : " + urlToCall);
                 }
+
                 cnt++;
             }
             //end get request from client
+            ///////////////////////////////////
+
 
             BufferedReader rd = null;
             try {
                 //System.out.println("sending request
-                //to real server for url: "
+        //to real server for url: "
                 //        + urlToCall);
                 ///////////////////////////////////
                 //begin send request to server, get response from server
@@ -60,51 +63,44 @@ public class ProxyThread extends Thread {
                 //not doing HTTP posts
                 conn.setDoOutput(false);
                 //System.out.println("Type is: "
-                //+ conn.getContentType());
+            //+ conn.getContentType());
                 //System.out.println("content length: "
-                //+ conn.getContentLength());
+            //+ conn.getContentLength());
                 //System.out.println("allowed user interaction: "
-                //+ conn.getAllowUserInteraction());
+            //+ conn.getAllowUserInteraction());
                 //System.out.println("content encoding: "
-                //+ conn.getContentEncoding());
+            //+ conn.getContentEncoding());
                 //System.out.println("content type: "
-                //+ conn.getContentType());
+            //+ conn.getContentType());
 
                 // Get the response
                 InputStream is = null;
-                // HttpURLConnection huc = (HttpURLConnection)conn;
+                HttpURLConnection huc = (HttpURLConnection)conn;
                 if (conn.getContentLength() > 0) {
                     try {
                         is = conn.getInputStream();
                         rd = new BufferedReader(new InputStreamReader(is));
                     } catch (IOException ioe) {
-                        System.out.println("********* IO EXCEPTION **********: " + ioe);
+                        System.out.println(
+                "********* IO EXCEPTION **********: " + ioe);
                     }
                 }
                 //end send request to server, get response from server
+                ///////////////////////////////////
 
+                ///////////////////////////////////
                 //begin send response to client
                 byte by[] = new byte[ BUFFER_SIZE ];
                 int index = is.read( by, 0, BUFFER_SIZE );
-                String replacedString = "";
                 while ( index != -1 )
                 {
-                    try {
-                        Thread.sleep(1);
-                        // print out html page
-                        String pageStr = new String(by, "UTF-8");
-                        // replacedString = new KeywordsFilter().filterKeywords(pageStr);
-                        replacedString = pageStr.replace("Password", "*****");
-                        // System.out.println(replacedString);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    byte[] nby = replacedString.getBytes();
-                    out.write( nby, 0, index );
-                    index = is.read( nby, 0, BUFFER_SIZE );
+                  out.write( by, 0, index );
+                  index = is.read( by, 0, BUFFER_SIZE );
                 }
                 out.flush();
+
                 //end send response to client
+                ///////////////////////////////////
             } catch (Exception e) {
                 //can redirect this to error log
                 System.err.println("Encountered exception: " + e);
@@ -132,5 +128,3 @@ public class ProxyThread extends Thread {
         }
     }
 }
-
-

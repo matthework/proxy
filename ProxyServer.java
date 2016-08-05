@@ -4,12 +4,11 @@ import java.net.*;
 import java.io.*;
 
 public class ProxyServer {
-
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
         boolean listening = true;
 
-        int port = 9999;	//default
+        int port = 10000;   //default
         try {
             port = Integer.parseInt(args[0]);
         } catch (Exception e) {
@@ -24,12 +23,9 @@ public class ProxyServer {
             System.exit(-1);
         }
 
-        // ProxyThread pt = new ProxyThread();
         while (listening) {
             new ProxyThread(serverSocket.accept()).start();
-            // pt(serverSocket.accept()).start();
         }
-            serverSocket.close();
-        }
-
+        serverSocket.close();
+    }
 }
