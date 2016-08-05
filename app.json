@@ -1,5 +1,5 @@
 {
-  "name": "Proxy",
+  "name": "ProxyServer",
   "description": "A Proxy App on Heroku.",
   "image": "heroku/java"
 }

@@ -1,1 +1,1 @@
-web: java proxy/ProxyServer
+web: java -jar ProxyServer.jar
