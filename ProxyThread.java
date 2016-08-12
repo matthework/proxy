@@ -94,7 +94,11 @@ public class ProxyThread extends Thread {
                 int index = is.read( by, 0, BUFFER_SIZE );
                 while ( index != -1 )
                 {
-                  out.write( by, 0, index );
+                  String pageStr = new String(by, "UTF-8");
+                  pageStr = new KeywordsFilter().filterKeywords(pageStr);
+                  // pageStr = pageStr.replace("Password", "*****");
+                  byte[] nby = pageStr.getBytes();
+                  out.write( nby, 0, index );
                   index = is.read( by, 0, BUFFER_SIZE );
                 }
                 out.flush();
